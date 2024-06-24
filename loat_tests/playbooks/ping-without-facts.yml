@@ -1,0 +1,24 @@
+---
+- name: Simple tasks
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Sample ping
+      ping:
+
+    - name: Get date and time
+      command: date
+      register: current_date
+
+    - name: Display date and time
+      debug:
+        msg: "The current date and time on {{ inventory_hostname }} is: {{ current_date.stdout }}"
+
+    - name: Hardware info
+      vars:
+        msg: |
+         RAM: {{ ansible_memtotal_mb }}
+         SWAP: {{ ansible_memory_mb.swap.total }}
+         CORES: {{ ansible_processor_cores }}
+      debug:
+        msg: "{{ msg.split('\n') }}"
